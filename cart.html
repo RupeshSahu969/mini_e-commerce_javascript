@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart Page</title>
+    <style>
+      /* Write all necessery css here  */
+      .nav{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      .nav a{
+        margin-top: 30px;
+      }
+      #cart-container{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <h1>Masai E-Commerce</h1>
+      <a href="./index.html">Home</a>
+      <a href="./cart.html">Cart</a>
+    </div>
+    <h1 id="total">Your Total cart Price is:- <span id="cart-total">0</span></h1>
+    <div id="cart-container">
+      <!-- Here Append All the cart Products  -->
+    </div>
+  </body>
+  <script>
+    // Write all necessery JS here 
+    let CartAdd=JSON.parse(localStorage.getItem("cart"))
+  
+    const container=document.getElementById("cart-container")
+
+    console.log(CartAdd)
+
+    const cartdata=(CartAdd) => {
+      console.log(CartAdd)
+      CartAdd.map((elem,index) => {
+
+        let div=document.createElement("div")
+
+        let btn1=document.createElement("button")
+          btn1.textContent="Remove"
+         
+          div.append(btn1)
+
+        container.append(div)
+
+      })
+
+    }
+    
+
+    function rejectfunction(elem,index){
+   
+   document.querySelector("tbody").innerHTML=""
+   train.splice(elem, 1)
+
+   localStorage.setItem("train_data", JSON.stringify(train))
+
+   let data=JSON.parse(localStorage.getItem("train_data"))
+
+
+   console.log(train)
+   
+ }
+
+  </script>
+</html>

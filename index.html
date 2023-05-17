@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <style>
+      /* Write all necessery css here  */
+      .body{
+        width: 100%;
+      }
+      .nav{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      .nav a{
+        margin-top: 30px;
+      }
+      #filter{
+        text-align: center;
+        margin-top: 20px;
+        justify-content: center;
+      }
+      #product-container{
+        margin-top: 10px;
+        
+      }
+      #product-container{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 10px;
+        
+      }
+      #product-container > div {
+
+        
+        width: 300px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding-bottom: 5px;
+      }
+      #product-container img {
+
+        width: 200px;
+        height: 200px;
+}
+#product-container p {
+
+margin-left: 10px;
+}#product-container h3 {
+
+margin-left: 10px;
+}#product-container h2 {
+
+margin-left: 10px;
+}
+button {
+  margin-left: 30%;
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="nav">
+      <h1>E-Commerce</h1>
+      <a href="./index.html">Home</a>
+      <a href="./cart.html">Cart</a>
+    </div>
+    <!-- Use this Select Tag for Filtering the Products  -->
+    <select id="filter" onchange="handleCategoryFilter()">
+      <option value="">Filter By Category</option>
+      <option value="Laptop">Laptop</option>
+      <option value="Mobile">Mobile</option>
+      <option value="Speakers">Speakers</option>
+    </select>
+    <div id="product-container">
+      <!-- Here Append All the Products  -->
+    </div>
+  </body>
+  <script>
+    // Write all necessery JS here 
+
+    const addProduct=async() => {
+
+      try{
+          let res=await fetch(`https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-tech-products`)
+        let pro=await res.json();
+
+        let data=pro.data;
+        // console.log(data)
+        getData(data)
+        }
+      catch(err)
+      {
+          console.log(err)
+      }
+    }
+    addProduct()
+
+const container=document.getElementById("product-container")
+
+const getData=(data) => {
+// console.log(data)
+data.forEach((elem,index) => {
+
+
+  let div=document.createElement("div")
+
+let brand=document.createElement("h2")
+brand.innerText=elem.brand
+
+let category=document.createElement("p")
+category.innerText=elem.category
+
+let details=document.createElement("p")
+details.innerText=elem.details
+
+let price=document.createElement("h3")
+price.innerText=`₹${elem.price}`
+
+let img=document.createElement("img")
+img.src=elem.img
+
+let btn=document.createElement("button")
+btn.textContent="Add To Cart"
+btn.style.backgroundColor="#2ab5f6"
+btn.style.color="while"
+
+btn.addEventListener("click",function() {
+ AddToCart(elem,index)
+ })
+
+div.append(img,brand,price,details,category,btn)
+
+container.append(div)
+})
+}
+
+var dataAdd = JSON.parse(localStorage.getItem("cart")) || [];
+
+function AddToCart(elem,index) {
+        
+  let geti = true
+        
+        for(var i=0;i<dataAdd.length;i++){
+
+             if(dataAdd[i].id == elem.id ){
+
+                  alert("Product Already in Cart")
+
+                 geti = false
+
+                 return geti
+             }
+        }
+        if(geti = true){
+
+          dataAdd.push(elem)
+
+          localStorage.setItem("cart",JSON.stringify(dataAdd));
+          alert("Product Added To Cart");
+          window.location.reload();
+        }
+        
+      }
+
+
+      function handleCategoryFilter(data) {
+        console.log(data)
+        var selected = document.querySelector("#filter").value;
+        
+        console.log(selected);
+        var dataFilter = data.filter(function (elem,index) {
+          return elem.category == selected;
+        });
+  
+        console.log(dataFilter)
+        
+      }
+
+  </script>
+</html>
